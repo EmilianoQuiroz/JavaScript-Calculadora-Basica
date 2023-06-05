@@ -29,7 +29,7 @@ app.set('port', port);
  */
 usersRoutes(app);
 
-server.listen(3000, '192.168.0.201' || 'localhost', function() {
+server.listen(3000, '192.168.0.201', function() {
     console.log('Servidor conrriendo en el puerto ' + port)
 });
 

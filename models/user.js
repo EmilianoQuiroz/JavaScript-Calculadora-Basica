@@ -4,20 +4,20 @@ const db = require('../config/config');
 const User = {};
 
 User.create = (user, result) => {
-    const sql = `
-    INSERT INTO
-        users(
-            email,
-            name,
-            lastname,
-            phone,
-            image,
-            password,
-            create_at,
-            update_at
 
-        )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+    const sql = `
+        INSERT INTO
+            users(
+                email,
+                name,
+                lastname,
+                phone,
+                image,
+                password,
+                create_at,
+                update_at
+            )
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query
@@ -26,7 +26,7 @@ User.create = (user, result) => {
         [
             user.email,
             user.name,
-            user.lastName,
+            user.lastname,
             user.phone,
             user.image,
             user.password,
@@ -35,15 +35,16 @@ User.create = (user, result) => {
         ],
         (err, res) => {
             if (err) {
-                console.log('Error',err);
+                console.log('Error:', err);
                 result(err, null);
             }
-            else{
+            else {
                 console.log('Id del nuevo usuario:', res.insertId);
                 result(null, res.insertId);
             }
         }
     )
+
 }
 
 module.exports = User;
