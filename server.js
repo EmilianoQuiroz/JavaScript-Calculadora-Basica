@@ -29,7 +29,7 @@ app.set('port', port);
  */
 usersRoutes(app);
 
-server.listen(3000, '192.168.0.201', function() {
+server.listen(3000, '192.168.0.201' || 'localhost', function() {
     console.log('Servidor conrriendo en el puerto ' + port)
 });
 
@@ -37,12 +37,17 @@ app.get('/', (req, res) => {
     res.send('Ruta raiz del backend');
 });
 
-app.get('/test', (req, res) => {
-    res.send('Ruta de test');
-});
+// app.get('/test', (req, res) => {
+//     res.send('Ruta de test');
+// });
 
 // Manejador de Errores
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(err.status || 500).send(err.stack);
 })
+
+module.exports = {
+    app: app,
+    server: server
+}

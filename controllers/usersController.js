@@ -5,6 +5,7 @@ module.exports = {
 
         const user = req.body;// Capturo los datos que me manda el cliente
         User.create(user, (err, data) => {
+        console.log('Datos del usuario', user);
 
             if (err) {
                 return res.status(501).json({
