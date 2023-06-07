@@ -1,4 +1,3 @@
-// Accedemos a la configuracion de la base de datos
 const db = require('../config/config');
 
 const User = {};
