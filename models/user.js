@@ -1,10 +1,10 @@
 const db = require('../config/config');
-// Encriptacion de password
 const bcrypt = require('bcryptjs');
 
 const User = {};
 
 User.findById = (id, result) => {
+
     const sql = `
     SELECT
         id,
@@ -17,7 +17,7 @@ User.findById = (id, result) => {
     FROM
         users
     WHERE
-        id= ?    
+        id = ?
     `;
 
     db.query(
@@ -29,15 +29,17 @@ User.findById = (id, result) => {
                 result(err, null);
             }
             else {
-                console.log('Uruario obtenido:', user[0]);
+                console.log('Usuario obtenido:', user[0]);
                 result(null, user[0]);
             }
         }
     )
+
 }
 
 
 User.findByEmail = (email, result) => {
+
     const sql = `
     SELECT
         id,
@@ -50,7 +52,7 @@ User.findByEmail = (email, result) => {
     FROM
         users
     WHERE
-        email= ?    
+        email = ?
     `;
 
     db.query(
@@ -62,15 +64,16 @@ User.findByEmail = (email, result) => {
                 result(err, null);
             }
             else {
-                console.log('Uruario obtenido:', user[0]);
+                console.log('Usuario obtenido:', user[0]);
                 result(null, user[0]);
             }
         }
     )
+
 }
 
-User.create = async(user, result) => {
-
+User.create = async (user, result) => {
+    
     const hash = await bcrypt.hash(user.password, 10);
 
     const sql = `
@@ -82,8 +85,8 @@ User.create = async(user, result) => {
                 phone,
                 image,
                 password,
-                create_at,
-                update_at
+                created_at,
+                updated_at
             )
         VALUES(?, ?, ?, ?, ?, ?, ?, ?)
     `;

@@ -8,6 +8,6 @@ module.exports = (app, upload) => {
     // DELETE -> ELIMINAR DATOS
 
     app.post('/api/users/create', usersController.register);
-    app.post('/api/users/createWidthImage', upload.array('image', 1), usersController.registerWidthImage);
+    app.post('/api/users/createWithImage', upload.array('image', 1), usersController.registerWithImage);
     app.post('/api/users/login', usersController.login);
 }

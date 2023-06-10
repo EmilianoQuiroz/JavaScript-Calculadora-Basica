@@ -4,19 +4,17 @@ const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 const storage = require('../utils/cloud_storage');
 
-
-
 module.exports = {
 
     login(req, res) {
+
         const email = req.body.email;
         const password = req.body.password;
-        const jwt = require('jsonwebtoken');
 
-        User.findByEmail(email, async(err, myUser) => {
-
-            console.log('Error', err);
-            console.log('Usuario', myUser);
+        User.findByEmail(email, async (err, myUser) => {
+            
+            console.log('Error ', err);
+            console.log('USUARIO ', myUser);
 
             if (err) {
                 return res.status(501).json({
@@ -27,15 +25,15 @@ module.exports = {
             }
 
             if (!myUser) {
-                return res.status(401).json({// El cliente no tiene autorizacion para realizar esta peticion(401)
+                return res.status(401).json({ // EL CLIENTE NO TIENE AUTORIZACION PARTA REALIZAR ESTA PETICION (401)
                     success: false,
                     message: 'El email no fue encontrado'
                 });
             }
-            // Se compara la pw que pone el usuario con la pw encriptada que se guarda en la db
+
             const isPasswordValid = await bcrypt.compare(password, myUser.password);
 
-            if(isPasswordValid) {
+            if (isPasswordValid) {
                 const token = jwt.sign({id: myUser.id, email: myUser.email}, keys.secretOrKey, {});
 
                 const data = {
@@ -47,19 +45,23 @@ module.exports = {
                     image: myUser.image,
                     session_token: `JWT ${token}`
                 }
+
                 return res.status(201).json({
                     success: true,
-                    message: 'El usuario se autentico correctamente',
-                    data: data
+                    message: 'El usuario fue autenticado',
+                    data: data // EL ID DEL NUEVO USUARIO QUE SE REGISTRO
                 });
+
             }
             else {
-                return res.status(401).json({// El cliente no tiene autorizacion para realizar esta peticion(401)
+                return res.status(401).json({ // EL CLIENTE NO TIENE AUTORIZACION PARTA REALIZAR ESTA PETICION (401)
                     success: false,
                     message: 'El password es incorrecto'
                 });
             }
+
         });
+
     },
 
     register(req, res) {
@@ -84,22 +86,24 @@ module.exports = {
         });
 
     },
-    async registerWidthImage(req, res) {
+    async registerWithImage(req, res) {
 
         const user = JSON.parse(req.body.user); // CAPTURO LOS DATOS QUE ME ENVIE EL CLIENTE
 
         const files = req.files;
-        if(files.length > 0) {
+
+        if (files.length > 0) {
             const path = `image_${Date.now()}`;
             const url = await storage(files[0], path);
 
-            if(url != undefined && url != null) {
+            if (url != undefined && url != null) {
                 user.image = url;
             }
         }
 
         User.create(user, (err, data) => {
 
+        
             if (err) {
                 return res.status(501).json({
                     success: false,
