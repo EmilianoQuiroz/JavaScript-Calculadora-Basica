@@ -100,10 +100,12 @@ module.exports = {
                 user.image = url;
             }
         }
-
+       
         User.create(user, (err, data) => {
+            
+        const token = jwt.sign({id: user.id, email: user.email}, keys.secretOrKey, {});
+        user.session_token = `JWT ${token}`;
 
-        
             if (err) {
                 return res.status(501).json({
                     success: false,
@@ -112,7 +114,7 @@ module.exports = {
                 });
             }
 
-            user.id = data;
+            user.id = `${data}`;
 
             return res.status(201).json({
                 success: true,
