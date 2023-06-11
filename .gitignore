@@ -2,3 +2,7 @@
 node_modules
 # .env
 .env
+# Archivos con informacion privada
+keys.js
+async_foreach.js
+cloud_storage.js
