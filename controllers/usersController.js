@@ -136,5 +136,55 @@ module.exports = {
         });
     });
 },
+async updateWithImage(req, res) {
 
+    const user = JSON.parse(req.body.user); // CAPTURO LOS DATOS QUE ME ENVIE EL CLIENTE
+
+    const files = req.files;
+
+    if (files.length > 0) {
+        const path = `image_${Date.now()}`;
+        const url = await storage(files[0], path);
+
+        if (url != undefined && url != null) {
+            user.image = url;
+        }
+    }
+   
+    User.update(user, (err, data) => {
+
+    if (err) {
+        return res.status(501).json({
+            success: false,
+            message: 'Hubo un error con el registro del usuario',
+            error: err
+        });
+    }
+        return res.status(201).json({
+            success: true,
+            message: 'El usuario se actualizo correctamente',
+            data: user
+        });
+    });
+},
+async updateWithoutImage(req, res) {
+
+    const user = req.body; // CAPTURO LOS DATOS QUE ME ENVIE EL CLIENTE
+
+    User.updateWithoutImage(user, (err, data) => {
+
+    if (err) {
+        return res.status(501).json({
+            success: false,
+            message: 'Hubo un error con el registro del usuario',
+            error: err
+        });
+    }
+        return res.status(201).json({
+            success: true,
+            message: 'El usuario se actualizo correctamente',
+            data: user
+        });
+    });
+},
 }
