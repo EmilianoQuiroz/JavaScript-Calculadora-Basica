@@ -7,7 +7,7 @@ User.findById = (id, result) => {
 
     const sql = `
     SELECT
-        U.id,
+        CONVERT(U.id, char) AS id,
         U.email,
         U.name,
         U.lastname,
@@ -33,7 +33,7 @@ User.findById = (id, result) => {
     ON
         UHR.id_rol = R.id
     WHERE
-        id = ?
+        U.id = ?
     GROUP BY
         U.id
     `;
@@ -154,8 +154,8 @@ User.create = async (user, result) => {
 
 }
 
-// Metodo para modificar los datos del usuario
 User.update = (user, result) => {
+
     const sql = `
     UPDATE
         users
@@ -164,7 +164,7 @@ User.update = (user, result) => {
         lastname = ?,
         phone = ?,
         image = ?,
-        updated_at = ?,
+        update_at = ?
     WHERE
         id = ?
     `;
@@ -192,7 +192,9 @@ User.update = (user, result) => {
         }
     )
 }
+
 User.updateWithoutImage = (user, result) => {
+
     const sql = `
     UPDATE
         users
@@ -200,7 +202,7 @@ User.updateWithoutImage = (user, result) => {
         name = ?,
         lastname = ?,
         phone = ?,
-        updated_at = ?,
+        update_at = ?
     WHERE
         id = ?
     `;
