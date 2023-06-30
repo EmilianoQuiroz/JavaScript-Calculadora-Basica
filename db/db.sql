@@ -1,5 +1,5 @@
 
--- Creacion de la tabla de usuarios --
+-- Creacion de la tabla de USUARIOS --
 USE delivery_app;
 
 CREATE TABLE users(
@@ -14,7 +14,7 @@ CREATE TABLE users(
     update_at TIMESTAMP(0) NOT NULL
 );
 
--- Creacion de los roles de usuario --
+-- Creacion de los ROLES DE USUARIO --
 USE delivery_app;
 
 CREATE TABLE roles(
@@ -74,4 +74,13 @@ CREATE TABLE user_has_roles(
     FOREIGN KEY(id_user) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(id_rol) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE CASCADE,
     PRIMARY KEY(id_user, id_rol)
+);
+
+-- Creacion de la tabla CATEGORIAS --
+CREATE TABLE categories(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(180) NOT NULL,
+    description TEXT NOT NULL,
+    create_at TIMESTAMP(0) NOT NULL,
+    update_at TIMESTAMP(0) NOT NULL
 );
